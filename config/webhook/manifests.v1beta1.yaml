@@ -1,0 +1,59 @@
+
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: mutating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-kong-pyfdtic-com-v1-kongconfig
+  failurePolicy: Fail
+  name: mkongconfig.kb.io
+  rules:
+  - apiGroups:
+    - kong.pyfdtic.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - kongconfigs
+  sideEffects: None
+
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: ValidatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: validating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-kong-pyfdtic-com-v1-kongconfig
+  failurePolicy: Fail
+  name: vkongconfig.kb.io
+  rules:
+  - apiGroups:
+    - kong.pyfdtic.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - kongconfigs
+  sideEffects: None

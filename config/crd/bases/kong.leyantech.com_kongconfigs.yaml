@@ -1,0 +1,280 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.6.2
+  creationTimestamp: null
+  name: kongconfigs.kong.pyfdtic.com
+spec:
+  group: kong.pyfdtic.com
+  names:
+    kind: KongConfig
+    listKind: KongConfigList
+    plural: kongconfigs
+    singular: kongconfig
+  scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      description: KongConfig is the Schema for the kongconfigs API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: KongConfigSpec defines the desired state of KongConfig
+          properties:
+            kongUrl:
+              type: string
+            route:
+              properties:
+                hosts:
+                  items:
+                    type: string
+                  type: array
+                httpsRedirectStatusCode:
+                  format: int32
+                  type: integer
+                methods:
+                  items:
+                    type: string
+                  type: array
+                pathHandling:
+                  type: string
+                paths:
+                  items:
+                    type: string
+                  type: array
+                plugins:
+                  properties:
+                    cors:
+                      properties:
+                        credentials:
+                          type: boolean
+                        enabled:
+                          type: boolean
+                        exposedHeaders:
+                          items:
+                            type: string
+                          type: array
+                        headers:
+                          items:
+                            type: string
+                          type: array
+                        maxAge:
+                          format: int32
+                          type: integer
+                        methods:
+                          items:
+                            type: string
+                          type: array
+                        origins:
+                          items:
+                            type: string
+                          type: array
+                        preflightContinue:
+                          type: boolean
+                      type: object
+                    ipRestriction:
+                      properties:
+                        allow:
+                          items:
+                            type: string
+                          type: array
+                        deny:
+                          items:
+                            type: string
+                          type: array
+                        enabled:
+                          type: boolean
+                      type: object
+                    jwt:
+                      properties:
+                        anonymous:
+                          type: string
+                        claimsToVerify:
+                          type: string
+                        cookieNames:
+                          items:
+                            type: string
+                          type: array
+                        enabled:
+                          type: boolean
+                        headerNames:
+                          items:
+                            type: string
+                          type: array
+                        keyClaimName:
+                          type: string
+                        maximumExpiration:
+                          format: int32
+                          type: integer
+                        runOnPreflight:
+                          type: boolean
+                        secretIsBase64:
+                          type: boolean
+                        uriParamNames:
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    keyAuth:
+                      properties:
+                        KeyInBody:
+                          type: boolean
+                        anonymous:
+                          type: string
+                        enabled:
+                          type: boolean
+                        hideCredentials:
+                          type: boolean
+                        keyNames:
+                          items:
+                            type: string
+                          type: array
+                        runOnPreflight:
+                          type: boolean
+                      type: object
+                    rateLimiting:
+                      properties:
+                        day:
+                          format: int32
+                          type: integer
+                        enabled:
+                          type: boolean
+                        faultTolerant:
+                          type: boolean
+                        headerName:
+                          type: string
+                        hideClientHeaders:
+                          type: boolean
+                        hour:
+                          format: int32
+                          type: integer
+                        limitBy:
+                          type: string
+                        minute:
+                          format: int32
+                          type: integer
+                        month:
+                          format: int32
+                          type: integer
+                        policy:
+                          type: string
+                        redisDatabase:
+                          format: int32
+                          type: integer
+                        redisHost:
+                          type: string
+                        redisPassword:
+                          type: string
+                        redisPort:
+                          format: int32
+                          type: integer
+                        redisTimeout:
+                          format: int32
+                          type: integer
+                        second:
+                          format: int32
+                          type: integer
+                        year:
+                          format: int32
+                          type: integer
+                      type: object
+                    requestTermination:
+                      properties:
+                        body:
+                          type: string
+                        contentType:
+                          type: string
+                        enabled:
+                          type: boolean
+                        message:
+                          type: string
+                        statusCode:
+                          format: int32
+                          type: integer
+                      type: object
+                  type: object
+                preserveHost:
+                  type: boolean
+                protocols:
+                  items:
+                    type: string
+                  type: array
+                regexPriority:
+                  format: int32
+                  type: integer
+                stripPath:
+                  type: boolean
+              required:
+              - hosts
+              - paths
+              type: object
+            service:
+              properties:
+                connectTimeout:
+                  format: int32
+                  type: integer
+                host:
+                  type: string
+                path:
+                  type: string
+                port:
+                  format: int32
+                  type: integer
+                protocol:
+                  type: string
+                readTimeout:
+                  format: int32
+                  type: integer
+                retries:
+                  format: int32
+                  type: integer
+                writeTimeout:
+                  format: int32
+                  type: integer
+              required:
+              - host
+              type: object
+            tags:
+              items:
+                type: string
+              type: array
+          required:
+          - kongUrl
+          - route
+          - service
+          type: object
+        status:
+          description: KongConfigStatus defines the observed state of KongConfig
+          properties:
+            routeId:
+              type: string
+            serviceId:
+              type: string
+          type: object
+      type: object
+  version: v1
+  versions:
+  - name: v1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

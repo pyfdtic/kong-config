@@ -1,0 +1,20 @@
+domain: pyfdtic.com
+layout:
+- go.kubebuilder.io/v3
+projectName: kong-config
+repo: git.pyfdtic.com/sre/kong-config
+resources:
+- api:
+    crdVersion: v1beta1
+    namespaced: true
+  controller: true
+  domain: pyfdtic.com
+  group: kong
+  kind: KongConfig
+  path: git.pyfdtic.com/sre/kong-config/api/v1
+  version: v1
+  webhooks:
+    defaulting: true
+    validation: true
+    webhookVersion: v1beta1
+version: "3"

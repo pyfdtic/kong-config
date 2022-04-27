@@ -1,0 +1,90 @@
+apiVersion: kong.pyfdtic.com/v1
+kind: KongConfig
+metadata:
+  name: kong-cors
+  namespace: default
+spec:
+  kongUrl: http://192.168.8.210:8001
+  tags:
+    - "name"
+    - "tom"
+  service:
+    host: test.dwarf-ye.bi
+    port: 8080
+    path: '/'
+    retries: 5
+    protocol: http
+    connectTimeout: 60000
+    writeTimeout: 60000
+    readTimeout: 60000
+  route:
+    plugins:
+      cors:
+        enabled: true
+        methods:
+          - GET
+          - HEAD
+          - PUT
+          - PATCH
+          - POST
+          - DELETE
+          - OPTIONS
+          - TRACE
+          - CONNECT
+        origins:
+          - "*"
+        credentials: false
+        preflightContinue: false
+      ipRestriction:
+        enabled: false
+        allow:
+          - 192.168.0.2
+          - 192.168.0.1
+        deny:
+          - 172.10.1.1
+          - 172.10.2.2
+          - 172.10.3.3
+      jwt:
+        enabled: false
+        secretIsBase64: true
+        runOnPreflight: false
+        uriParamNames:
+          - jwt
+        keyClaimName: iss
+        headerNames:
+          - authorization
+        maximumExpiration: 0
+      requestTermination:
+        enabled: false
+        statusCode: 201
+        message: "ok"
+      keyAuth:
+        enabled: false
+        keyNames:
+          - "apikey"
+        runOnPreflight: true
+        hideCredentials: true
+        KeyInBody: false
+      rateLimiting:
+        enabled: true
+        policy: cluster
+        limitBy: ip
+        redisDatabase: 0
+        day: 3
+#        hour: 24
+    hosts:
+      - test.bob.com
+    paths:
+      - /test
+    methods:
+      - GET
+      - POST
+    pathHandling: v1
+    httpsRedirectStatusCode: 426
+    regexPriority: 0
+    stripPath: true
+    preserveHost: false
+    protocols:
+      - http
+      - https
+

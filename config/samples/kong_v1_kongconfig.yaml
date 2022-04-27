@@ -1,0 +1,37 @@
+apiVersion: kong.pyfdtic.com/v1
+kind: KongConfig
+metadata:
+  name: kongconfig-sample
+  namespace: default
+spec:
+  kongUrl: http://192.168.8.210:8001
+  tags:
+    - "name"
+    - "tom"
+  service:
+    host: test.dwarf-ye.bi
+    port: 8080
+    path: '/'
+    retries: 5
+    protocol: http
+    connectTimeout: 60000
+    writeTimeout: 60000
+    readTimeout: 60000
+  route:
+    Plugins: 
+    hosts:
+      - test.bob.com
+    paths:
+      - /test
+    methods:
+      - GET
+      - POST
+    pathHandling: v1
+    httpsRedirectStatusCode: 426
+    regexPriority: 0
+    stripPath: true
+    preserveHost: false
+    protocols:
+      - http
+      - https
+
